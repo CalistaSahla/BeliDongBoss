@@ -1,47 +1,64 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="id">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk Akun - BeliDongBos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-bg-light min-h-screen flex flex-col font-sans">
+
+    @include('layouts.header')
+
+    <main class="flex-grow py-16 flex justify-center items-center px-4 md:px-16">
+        <div class="bg-white rounded-xl shadow-3xl w-full flex flex-row min-h-[650px] overflow-hidden">
+
+            <!-- Left Banner -->
+            <div class="hidden md:flex md:w-1/2 bg-secondary-navy text-white p-12 flex-col justify-center items-center">
+                <img src="{{ asset('assets/Logo-BDB.png') }}" class="w-full max-w-xs mb-8">
+                <p class="text-xl font-semibold text-center">
+                    Cari dan Jual barang kampus?<br>Ya di sini dong Bos!
+                </p>
+            </div>
+
+            <div class="w-full md:w-1/2 p-12 flex flex-col justify-center">
+                <h2 class="text-3xl font-bold mb-10 text-text-dark text-center">Masuk Akun</h2>
+
+                @if ($errors->any())
+                    <div class="bg-red-100 text-red-700 p-3 rounded mb-6">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login') }}" class="max-w-sm mx-auto w-full">
+                    @csrf
+
+                    <input type="email" name="email" placeholder="Email" required
+                        class="w-full p-4 border border-input-border rounded-lg mb-5">
+
+                    <input type="password" name="password" placeholder="Kata Sandi" required
+                        class="w-full p-4 border border-input-border rounded-lg mb-5">
+
+                    <button type="submit"
+                        class="bg-primary-yellow text-text-dark font-bold py-4 w-full rounded-lg text-lg">
+                        Masuk
+                    </button>
+                </form>
+
+                <p class="mt-8 text-sm text-center">
+                    Belum punya akun?
+                    <a href="{{ route('register') }}" class="text-link-blue">Daftar Sekarang</a>
+                </p>
+            </div>
         </div>
+    </main>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    @include('layouts.footer')
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</body>
+</html>

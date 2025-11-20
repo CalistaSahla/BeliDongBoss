@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SellerController;
+
+Route::get('/seller/register', [SellerController::class, 'create'])->name('seller.register');
+Route::post('/seller/register', [SellerController::class, 'store'])->name('seller.store');
 
 Route::get('/', function () {
     return view('welcome');
