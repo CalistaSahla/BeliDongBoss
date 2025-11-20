@@ -1,21 +1,69 @@
-<header class="bg-secondary-navy text-white px-16 py-3 flex items-center justify-between shadow-lg font-sans">
-
-    {{-- Logo --}}
-    <div class="w-1/4 flex items-center">
-        <img src="{{ asset('assets/Logo-BDB.png') }}" class="h-6 w-auto">
+<header class="bg-secondary-navy text-white px-6 md:px-16 py-3 flex items-center justify-between shadow-lg">
+    {{-- LEFT: LOGO --}}
+    <div class="flex items-center gap-3">
+        <a href="{{ route('katalog.index') }}">
+            <img src="{{ asset('assets/Logo-BDB.png') }}" alt="BeliDongBos" class="h-8 w-auto">
+        </a>
     </div>
 
-    {{-- Navigation --}}
-    <nav class="w-2/4 flex justify-center space-x-10 text-base font-medium">
-        <a href="/" class="hover:text-primary-yellow transition">Beranda</a>
-        <a href="#" class="hover:text-primary-yellow transition">Toko</a>
-        <a href="#" class="hover:text-primary-yellow transition">Pusat Bantuan</a>
+    {{-- CENTER: NAV (HANYA YANG ADA DI SRS) --}}
+    <nav class="hidden md:flex justify-center space-x-10 text-sm font-medium">
+        {{-- Beranda = Katalog Produk (SRS-MartPlace-04) --}}
+        <a href="{{ route('katalog.index') }}" class="hover:text-primary-yellow transition">
+            Beranda
+        </a>
+        {{-- Pencarian tidak aku jadikan menu terpisah.
+             Fitur cari akan kita taruh di halaman katalog /search,
+             jadi tidak nambah page baru. --}}
     </nav>
 
-    {{-- Icons --}}
-    <div class="w-1/4 flex justify-end items-center text-xl space-x-5">
-        <a href="#" class="hover:text-primary-yellow transition"><i class="fas fa-user"></i></a>
-        <a href="#" class="hover:text-primary-yellow transition"><i class="fas fa-cog"></i></a>
-    </div>
+    {{-- RIGHT: AUTH BUTTONS --}}
+    <div class="flex items-center space-x-4 text-sm">
+        @auth
+            {{-- Kalau user sudah login, tampilkan role-aware link yang memang ADA di SRS --}}
+            @if(auth()->user()->role === 'seller')
+                <a href="{{ route('seller.dashboard') }}" class="hover:text-primary-yellow transition">
+                    Dashboard Seller
+                </a>
+            @elseif(auth()->user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="hover:text-primary-yellow transition">
+                    Dashboard Admin
+                </a>
+            @endif
 
+            {{-- Dropdown kecil untuk profil & logout --}}
+            <div class="relative group">
+                <button class="flex items-center gap-2 hover:text-primary-yellow transition">
+                    <i class="fas fa-user-circle text-lg"></i>
+                    <span class="hidden md:inline-block">
+                        {{ Str::limit(auth()->user()->name, 12) }}
+                    </span>
+                </button>
+
+                <div class="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-3xl py-2 text-sm hidden group-hover:block z-50">
+                    <a href="{{ route('profile.show') ?? '#' }}" class="block px-4 py-2 hover:bg-gray-100">
+                        Profil
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50">
+                            Keluar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @else
+            {{-- Belum login: Masuk & Daftar --}}
+            <a href="{{ route('login') }}"
+               class="px-4 py-2 rounded-full border border-primary-yellow text-primary-yellow hover:bg-primary-yellow hover:text-secondary-navy transition">
+                Masuk
+            </a>
+            <a href="{{ route('register') }}"
+               class="px-4 py-2 rounded-full bg-primary-yellow text-secondary-navy font-semibold hover:opacity-90 transition">
+                Daftar
+            </a>
+        @endauth
+    </div>
 </header>
