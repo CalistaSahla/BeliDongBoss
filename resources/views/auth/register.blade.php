@@ -1,62 +1,46 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akun - BeliDongBos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
+@extends('layouts.main')
 
-<body class="bg-bg-light min-h-screen flex flex-col font-sans">
+@section('content')
+<section class="flex items-center justify-center py-20 px-6">
+    <div class="bg-white shadow-3xl rounded-2xl p-10 w-full max-w-md">
 
-    {{-- HEADER --}}
-    @include('layouts.header')
-
-    <main class="flex-grow py-16 flex justify-center items-start px-4 md:px-16">
-        <div class="bg-white rounded-xl shadow-3xl w-full flex flex-col items-center py-10 max-w-lg">
-
-            <h1 class="text-3xl font-bold mb-10">Daftar Akun</h1>
-
-            @if ($errors->any())
-                <div class="bg-red-100 text-red-700 p-3 rounded mb-6">
-                    {{ $errors->first() }}
-                </div>
-            @endif
-
-            <form method="POST" action="{{ route('register') }}"
-                  class="w-full max-w-md flex flex-col gap-5">
-
-                @csrf
-
-                <input name="name" placeholder="Nama Lengkap" required
-                       class="border border-input-border rounded-full px-5 py-3">
-
-                <input name="email" type="email" placeholder="Email" required
-                       class="border border-input-border rounded-full px-5 py-3">
-
-                <input name="password" type="password" placeholder="Kata Sandi" required
-                       class="border border-input-border rounded-full px-5 py-3">
-
-                <input name="password_confirmation" type="password" placeholder="Konfirmasi Kata Sandi" required
-                       class="border border-input-border rounded-full px-5 py-3">
-
-                <button type="submit"
-                        class="bg-primary-yellow rounded-full py-3 font-semibold text-[#333]">
-                    Daftar
-                </button>
-            </form>
-
-            <p class="text-sm mt-6">
-                Sudah punya akun?
-                <a href="{{ route('login') }}" class="text-blue-500">Masuk</a>
-            </p>
-
+        <div class="text-center mb-8">
+            <img src="{{ asset('assets/BDB-maskotonly.png') }}" class="h-20 mx-auto">
+            <h1 class="text-2xl font-semibold text-gray-800 mt-4">Buat Akun Baru</h1>
         </div>
-    </main>
 
-    {{-- FOOTER --}}
-    @include('layouts.footer')
+        <form action="{{ route('register') }}" method="POST" class="space-y-5">
+            @csrf
 
-</body>
-</html>
+            <div>
+                <label class="block text-gray-700 mb-1 font-medium">Nama Lengkap</label>
+                <input type="text" name="name" required
+                    class="w-full border border-input-border rounded-xl px-4 py-3 focus:ring-primary-yellow focus:border-primary-yellow">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1 font-medium">Email</label>
+                <input type="email" name="email" required
+                    class="w-full border border-input-border rounded-xl px-4 py-3">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1 font-medium">Password</label>
+                <input type="password" name="password" required
+                    class="w-full border border-input-border rounded-xl px-4 py-3">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-primary-yellow text-secondary-navy font-semibold py-3 rounded-xl hover:opacity-90 transition">
+                Daftar
+            </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-600 mt-6">
+            Sudah punya akun?
+            <a href="{{ route('login') }}" class="text-primary-yellow font-medium">Masuk</a>
+        </p>
+
+    </div>
+</section>
+@endsection
