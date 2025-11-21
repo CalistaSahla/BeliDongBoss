@@ -144,3 +144,34 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])
         ->name('seller.dashboard');
 });
+
+// ==========================
+// LAPORAN
+// ==========================
+Route::middleware(['auth'])->group(function () {
+
+    // LAPORAN USER
+    Route::get('/admin/laporan/user', [LaporanController::class, 'user'])->name('laporan.user');
+    Route::get('/admin/laporan/user/pdf', [LaporanController::class, 'userPdf'])->name('laporan.user.pdf');
+
+    // LAPORAN SELLER
+    Route::get('/admin/laporan/seller', [LaporanController::class, 'seller'])->name('laporan.seller');
+    Route::get('/admin/laporan/seller/pdf', [LaporanController::class, 'sellerPdf'])->name('laporan.seller.pdf');
+
+    // LAPORAN PRODUK
+    Route::get('/admin/laporan/produk', [LaporanController::class, 'produk'])->name('laporan.produk');
+    Route::get('/admin/laporan/produk/pdf', [LaporanController::class, 'produkPdf'])->name('laporan.produk.pdf');
+
+    // LAPORAN RATING
+    Route::get('/admin/laporan/rating', [LaporanController::class, 'rating'])->name('laporan.rating');
+    Route::get('/admin/laporan/rating/pdf', [LaporanController::class, 'ratingPdf'])->name('laporan.rating.pdf');
+
+    // LAPORAN RATING TERTINGGI
+    Route::get('/admin/laporan/rating-tertinggi', [LaporanController::class, 'ratingTertinggi'])->name('laporan.rating.tertinggi');
+    Route::get('/admin/laporan/rating-tertinggi/pdf', [LaporanController::class, 'ratingTertinggiPdf'])->name('laporan.rating.tertinggi.pdf');
+
+    // LAPORAN RATING TERENDAH
+    Route::get('/admin/laporan/rating-terendah', [LaporanController::class, 'ratingTerendah'])->name('laporan.rating.terendah');
+    Route::get('/admin/laporan/rating-terendah/pdf', [LaporanController::class, 'ratingTerendahPdf'])->name('laporan.rating.terendah.pdf');
+
+});
