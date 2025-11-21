@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\SellerVerificationController;
 use App\Http\Controllers\Seller\ProductController;
 
 use App\Http\Controllers\ReviewController;
+
+use App\Http\Controllers\Admin\AdminDashboardController;
 // ==========================
 // AUTH USER
 // ==========================
@@ -124,3 +126,10 @@ Route::middleware('auth')->group(function () {
         ->name('produk.review.store');
 });
 
+// ==========================
+// ADMIN DASHBOARD
+// ==========================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+        ->name('admin.dashboard');
+});
