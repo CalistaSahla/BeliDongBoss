@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\SellerRegisterController;
 use App\Http\Controllers\Admin\SellerVerificationController;
 use App\Http\Controllers\Seller\ProductController;
 
+use App\Http\Controllers\ReviewController;
 // ==========================
 // AUTH USER
 // ==========================
@@ -113,6 +114,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/produk/{id}', [ProductController::class, 'show'])
         ->name('produk.detail');
 
+});
 
+// ==========================
+// REVIEW PRODUK
+// ==========================   
+Route::middleware('auth')->group(function () {
+    Route::post('/produk/{id}/review', [ReviewController::class, 'store'])
+        ->name('produk.review.store');
 });
 
