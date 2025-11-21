@@ -14,6 +14,8 @@ use App\Http\Controllers\ReviewController;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 
+use App\Http\Controllers\Seller\SellerDashboardController;
+
 // ==========================
 // AUTH USER
 // ==========================
@@ -135,3 +137,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.dashboard');
 });
 
+// ==========================
+// SELLER DASHBOARD
+// ==========================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])
+        ->name('seller.dashboard');
+});
