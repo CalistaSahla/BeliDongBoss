@@ -23,6 +23,11 @@ class LoginController extends Controller
 
             $role = Auth::user()->role;
 
+            $user = Auth::user();
+            $user->last_login_at = now();
+            $user->save();
+
+
             // SELLER masuk ke halaman seller product index (SUDAH ADA)
             if ($role === 'seller') {
                 return redirect()->route('seller.product.index');
@@ -30,8 +35,9 @@ class LoginController extends Controller
 
             // ADMIN masuk ke verifikasi seller (SUDAH ADA)
             if ($role === 'admin') {
-                return redirect()->route('admin.verifikasi.seller');
+                return redirect()->route('admin.dashboard');
             }
+
 
             // USER biasa masuk ke katalog (SUDAH ADA)
             return redirect()->route('katalog.index');
