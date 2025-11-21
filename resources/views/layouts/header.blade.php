@@ -41,15 +41,17 @@
                 </button>
 
                 <div class="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-3xl py-2 text-sm hidden group-hover:block z-50">
-                    <a href="{{ route('profile.show') ?? '#' }}" class="block px-4 py-2 hover:bg-gray-100">
+                    <a href="{{ route('profile.edit') ?? '#' }}" class="block px-4 py-2 hover:bg-gray-100">
                         Profil
                     </a>
-                    <form action="{{ route('logout') }}" method="POST">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button
-                            type="submit"
-                            class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50">
-                            Keluar
+                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                            Logout
                         </button>
                     </form>
                 </div>

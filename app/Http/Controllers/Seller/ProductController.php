@@ -10,30 +10,28 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-public function index()
-{
-    $seller = Seller::where('user_id', Auth::id())->first();
+    public function index()
+    {
+        $seller = Seller::where('user_id', Auth::id())->first();
 
-    $products = Product::where('seller_id', $seller->id)->get();
+        if (!$seller) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Anda belum terdaftar sebagai seller.');
+        }
 
-    return view('seller.produk.index', compact('products'));
-}
+        $products = Product::where('seller_id', $seller->id)->get();
 
-public function show($id)
-{
-    $product = Product::with('seller')->findOrFail($id);
+        return view('seller.produk.index', compact('products'));
+    }
 
-    return view('katalog.detail', compact('product'));
-}
-
-public function create()
-{
-    return view('seller.produk.create');
-}
+    public function create()
+    {
+        return view('seller.produk.create');
+    }
 
     public function store(Request $request)
     {
-        $seller = Seller::where('user_id', Auth::id())->first();
+        $seller = Seller::where('user_id', Auth::id())->firstOrFail();
 
         $request->validate([
             'name' => 'required',
@@ -46,10 +44,8 @@ public function create()
             'images.*' => 'image',
         ]);
 
-        // Upload thumbnail
         $thumbnail = $request->file('thumbnail')->store('thumbnails', 'public');
 
-        // Upload multiple images
         $images = [];
         if ($request->hasFile('images')) {
             foreach ($request->images as $img) {
@@ -72,5 +68,4 @@ public function create()
         return redirect()->route('seller.product.index')
             ->with('success', 'Produk berhasil ditambahkan!');
     }
-
 }

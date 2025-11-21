@@ -63,4 +63,16 @@
     @include('layouts.footer')
 
 </body>
+@if(session('success'))
+<div class="p-4 bg-green-500 text-white text-center">
+    {{ session('success') }}
+</div>
+@endif
+
+@if(session('error'))
+<div class="p-4 bg-red-500 text-white text-center">
+    {{ session('error') }}
+</div>
+@endif
+
 </html>

@@ -15,36 +15,30 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+    $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
 
-            $role = Auth::user()->role;
-
             $user = Auth::user();
+
             $user->last_login_at = now();
             $user->save();
 
-
-            // SELLER masuk ke halaman seller product index (SUDAH ADA)
-            if ($role === 'seller') {
-                return redirect()->route('seller.product.index');
+            // SELLER
+            if ($user->role === 'seller') {
+                return redirect()->route('seller.dashboard');
             }
 
-            // ADMIN masuk ke verifikasi seller (SUDAH ADA)
-            if ($role === 'admin') {
+            // ADMIN
+            if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
 
+            // USER BIASA
+            return redirect()->route('dashboard');
+         }
 
-            // USER biasa masuk ke katalog (SUDAH ADA)
-            return redirect()->route('katalog.index');
-        }
-
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
     }
 }

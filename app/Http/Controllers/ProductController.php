@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -9,24 +11,20 @@ class ProductController extends Controller
     {
         $query = Product::with('seller');
 
-        // Filter Nama Produk
         if ($request->filled('product_name')) {
             $query->where('name', 'like', '%'.$request->product_name.'%');
         }
 
-        // Filter Nama Toko
         if ($request->filled('store_name')) {
             $query->whereHas('seller', function ($q) use ($request) {
                 $q->where('storeName', 'like', '%'.$request->store_name.'%');
             });
         }
 
-        // Filter Kategori
         if ($request->filled('category')) {
             $query->where('category', 'like', '%'.$request->category.'%');
         }
 
-        // Filter Lokasi (Kota / Provinsi dari seller)
         if ($request->filled('city')) {
             $query->whereHas('seller', function ($q) use ($request) {
                 $q->where('picCity', 'like', '%'.$request->city.'%');
@@ -49,9 +47,8 @@ class ProductController extends Controller
 
     public function show($id)
     {
-    $product = Product::with(['seller', 'reviews.user'])->findOrFail($id);
+        $product = Product::with(['seller', 'reviews.user'])->findOrFail($id);
 
-    return view('katalog.detail', compact('product'));
+        return view('katalog.detail', compact('product'));
     }
-
 }
