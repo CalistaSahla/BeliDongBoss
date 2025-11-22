@@ -10,19 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+  
     public function index()
     {
-        $seller = Seller::where('user_id', Auth::id())->first();
+        $products = \App\Models\Product::latest()->get();
 
-        if (!$seller) {
-            return redirect()->route('dashboard')
-                ->with('error', 'Anda belum terdaftar sebagai seller.');
-        }
-
-        $products = Product::where('seller_id', $seller->id)->get();
-
-        return view('seller.produk.index', compact('products'));
+        return view('katalog.index', compact('products'));
     }
+
 
     public function create()
     {

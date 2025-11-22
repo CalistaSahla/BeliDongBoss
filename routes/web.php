@@ -2,10 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-// AUTH
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\SellerRegisterController;
 
 // PROFILE
 use App\Http\Controllers\ProfileController;
@@ -13,9 +9,10 @@ use App\Http\Controllers\ProfileController;
 // SELLER
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\SellerDashboardController;
-
+use App\Http\Controllers\Seller\SellerRegisterController;
+use App\Http\Controllers\Seller\SellerLoginController;
 // USER KATALOG
-use App\Http\Controllers\ProductController as KatalogProductController;
+use App\Http\Controllers\ProductController;;
 
 // ADMIN
 use App\Http\Controllers\Admin\SellerVerificationController;
@@ -24,39 +21,40 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 // REVIEW
 use App\Http\Controllers\ReviewController;
 
+//Mail
+use App\Mail\SellerRegisteredMail;
+use Illuminate\Support\Facades\Mail;
+
+// KATALOG
+use App\Http\Controllers\KatalogProductController;
+
+Route::get('/katalog', [KatalogProductController::class, 'index'])->name('katalog.index');
+
+
 
 // ==========================
 // HOME
 // ==========================
-Route::get('/', function () {
-    return view('welcome');
-});
 
-
-// ==========================
-// AUTH USER
-// ==========================
-
-// REGISTER USER
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.process');
-
-// LOGIN USER
-Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->name('login.process');
-
-// LOGOUT
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login')->with('success', 'Berhasil logout!');
-})->name('logout');
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
 
 // ==========================
 // REGISTER SELLER
 // ==========================
-Route::get('/register/seller', [SellerRegisterController::class, 'create'])->name('seller.register');
-Route::post('/register/seller', [SellerRegisterController::class, 'store'])->name('seller.register.process');
+
+
+Route::get('/register/seller', [SellerRegisterController::class, 'create'])
+    ->name('seller.register');
+
+Route::post('/register/seller', [SellerRegisterController::class, 'store'])
+    ->name('seller.register.process');
+
+Route::get('/seller/login', [SellerLoginController::class, 'showLoginForm'])
+    ->name('seller.login');
+
+Route::post('/seller/login', [SellerLoginController::class, 'login'])
+    ->name('seller.login.process');
 
 
 // ==========================

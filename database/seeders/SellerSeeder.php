@@ -10,32 +10,28 @@ class SellerSeeder extends Seeder
 {
     public function run(): void
     {
-        // buat akun user seller
-        $user = User::create([
-            'name' => 'Dummy Seller',
-            'email' => 'seller@test.com',
-            'password' => bcrypt('password'),
-            'role' => 'seller',
-        ]);
+        for ($i = 1; $i <= 10; $i++) {
 
-        // buat data seller
-        Seller::create([
-            'user_id' => $user->id,
-            'storeName' => 'Toko Dummy',
-            'storeDescription' => 'Toko dummy untuk testing katalog.',
-            'picName' => 'Dummy PIC',
-            'picPhone' => '081234567890',
-            'picEmail' => 'pic@test.com',
-            'picStreet' => 'Jalan Dummy',
-            'picRT' => '01',
-            'picRW' => '02',
-            'picVillage' => 'Desa Dummy',
-            'picCity' => 'Bandung',
-            'picProvince' => 'Jawa Barat',
-            'picKtpNumber' => '1234567890123456',
-            'picPhoto' => 'dummy.jpg',
-            'picKtpFile' => 'dummy-ktp.jpg',
-            'status' => 'active',
-        ]);
+            // Buat user seller
+            $user = User::create([
+                'name' => "Seller $i",
+                'email' => "seller$i@test.com",
+                'password' => bcrypt('password'),
+                'role' => 'seller'
+            ]);
+
+            // Buat data seller (SNAKE CASE SESUAI MIGRATION MU)
+            Seller::create([
+                'user_id'   => $user->id,
+                'pic_name'  => "PIC Seller $i",
+                'store_name' => "Toko Kampus $i",
+                'email'     => "seller$i@test.com",
+                'phone'     => "08" . rand(100000000, 999999999),
+                'province'  => "Jawa Barat",
+                'city'      => "Bandung",
+                'address'   => "Alamat lengkap Seller $i",
+                'status'    => "approved",
+            ]);
+        }
     }
 }
